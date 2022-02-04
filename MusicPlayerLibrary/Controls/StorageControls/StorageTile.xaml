@@ -1,0 +1,95 @@
+﻿<UserControl
+    x:Class="MusicPlayerLibrary.Controls.StorageControls.StorageTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MusicPlayerLibrary.Controls.StorageControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="80"
+    d:DesignWidth="200"
+    x:DefaultBindMode="OneWay"
+    DataContextChanged="StorageTile_DataContextChanged"
+    PointerEntered="StorageTile_PointerEntered"
+    PointerExited="StorageTile_PointerExited"
+    PointerPressed="StorageTile_PointerPressed"
+    PointerReleased="StorageTile_PointerReleased"
+    Unloaded="StorageTile_Unloaded"
+    mc:Ignorable="d">
+    <Grid x:Name="RootGrid" Style="{StaticResource TileRootGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Button
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Click="CloseButton_Click"
+            Content="&#xE711;"
+            FontFamily="Segoe MDL2 Assets"
+            Style="{StaticResource BasicAnimatedButtonStyle}"
+            Visibility="{x:Bind DeleteButtonVisibility}" />
+        <StackPanel
+            Grid.RowSpan="2"
+            Margin="7,0,7,0"
+            Spacing="5">
+            <TextBlock
+                FontFamily="Segoe UI"
+                Text="{x:Bind FolderName, FallbackValue=Folder_Name}"
+                TextTrimming="CharacterEllipsis" />
+            <TextBlock
+                Foreground="{StaticResource SystemChromeDisabledLowColor}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind FolderPath, FallbackValue=Folder_Path}"
+                TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,5,0,0"
+            HorizontalAlignment="Center"
+            FontFamily="Segoe MDL2 Assets"
+            Foreground="Red"
+            Text="&#xE783;"
+            ToolTipService.Placement="Bottom"
+            Visibility="{x:Bind ErrorVisibility}">
+            <ToolTipService.ToolTip>
+                <TextBlock x:Uid="Storage_Tile_Error" />
+            </ToolTipService.ToolTip>
+        </TextBlock>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <Storyboard>
+                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Normal" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource TileRevealBackgroundBrush}" />
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource TileRevealBackgroundBrush}" />
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

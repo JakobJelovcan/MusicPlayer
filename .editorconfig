@@ -1,0 +1,16 @@
+﻿[*.cs]
+
+# IDE0063: Use simple 'using' statement
+csharp_prefer_simple_using_statement = true:none
+
+# CS0659: Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
+dotnet_diagnostic.CS0659.severity = none
+
+# IDE0066: Convert switch statement to expression
+csharp_style_prefer_switch_expression = true:none
+
+# CS4014: Because this call is not awaited, execution of the current method continues before the call is completed
+dotnet_diagnostic.CS4014.severity = none
+
+# CS1998: Async method lacks 'await' operators and will run synchronously
+dotnet_diagnostic.CS1998.severity = none

@@ -1,0 +1,69 @@
+﻿<Page
+    x:Class="MusicPlayer.Pages.FullScreenPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayer.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:MusicPlayerLibrary.Controls.ControlTile"
+    xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:lyricsTiles="using:MusicPlayerLibrary.Controls.LyricsControls"
+    xmlns:lyrics="using:MusicPlayerLibrary.Lyrics"
+    xmlns:infoTiles="using:MusicPlayerLibrary.Controls.InfoControl"
+    xmlns:info="using:MusicPlayerLibrary.Info"
+    x:DefaultBindMode="OneWay"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
+    RequestedTheme="{x:Bind MusicPlayer.ApplicationTheme}"
+    PointerMoved="FullScreenPage_PointerMoved"
+    Loaded="FullScreenPage_Loaded"
+    Unloaded="FullScreenPage_Unloaded"
+    Background="{ThemeResource SystemAltHighColor}">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="{x:Bind LargeImage.Path}" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <Grid x:Name="TitleBar" VerticalAlignment="Top" Height="32" Background="Transparent" Canvas.ZIndex="100"/>
+        <infoTiles:InfoTile IsOpen="{x:Bind info:InfoMessage.CurrentMessage.IsOpen}" Severity="{x:Bind info:InfoMessage.CurrentMessage.Severity}" Message="{x:Bind info:InfoMessage.CurrentMessage.Message}" VerticalAlignment="Top" Margin="0,0,0,138" Canvas.ZIndex="101"/>
+        <Border Opacity="{x:Bind ImageLayerOpacity}">
+            <Border.OpacityTransition>
+                <ScalarTransition Duration="0:0:0.6"/>
+            </Border.OpacityTransition>
+            <Border.Background>
+                <brushes:AcrylicBrush TintColor="Transparent" TintOpacity="0" BlurAmount="14"/>
+            </Border.Background>
+        </Border>
+        <Border VerticalAlignment="Stretch" Margin="100" Opacity="{x:Bind ImageLayerOpacity}">
+            <Border.OpacityTransition>
+                <ScalarTransition Duration="0:0:0.6"/>
+            </Border.OpacityTransition>
+            <Border.Background>
+                <ImageBrush ImageSource="{x:Bind Image.Path}" Stretch="Uniform"/>
+            </Border.Background>
+        </Border>
+        <Border Visibility="{x:Bind MusicPlayer.LyricsPlayer.LyricsVisibility}">
+            <Border.Background>
+                <brushes:AcrylicBrush TintColor="Black" TintOpacity=".4" BlurAmount="3"/>
+            </Border.Background>
+            <muxc:ItemsRepeater ItemsSource="{x:Bind MusicPlayer.LyricsPlayer.DisplayLyrics}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="100">
+                <muxc:ItemsRepeater.Layout>
+                    <muxc:StackLayout Orientation="Vertical" Spacing="10"/>
+                </muxc:ItemsRepeater.Layout>
+                <muxc:ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="lyrics:LyricModel">
+                        <lyricsTiles:LyricTile />
+                    </DataTemplate>
+                </muxc:ItemsRepeater.ItemTemplate>
+            </muxc:ItemsRepeater>            
+        </Border>
+        <controls:ControlTile MusicPlayer="{x:Bind MusicPlayer}" CurrentView="FullScreen" VerticalAlignment="Bottom" PlayPreviousClick="ControlBar_PlayPreviousClick" Translation="{x:Bind ControlBarPosition}"
+                             PlayPauseClick="ControlBar_PlayPauseClick" PlayNextClick="ControlBar_PlayNextClick" MuteClick="ControlBar_MuteClick" ShuffleClick="ControlBar_ShuffleClick" LoopClick="ControlBar_LoopClick"
+                             PositionChanged="ControlBar_PositionChanged" GoToSong="ControlBar_GoToSong" GoToArtist="ControlBar_GoToArtist" ChangeViewClick="ControlBar_ChangeView" LyricsVisibilityChanged="ControlBar_LyricsVisibilityChanged"
+                             LyricsButtonVisibility="Visible" PointerEntered="ControlBar_PointerEntered" PointerExited="ControlBar_PointerExited">
+            <controls:ControlTile.TranslationTransition>
+                <Vector3Transition />
+            </controls:ControlTile.TranslationTransition>
+        </controls:ControlTile>
+    </Grid>
+</Page>

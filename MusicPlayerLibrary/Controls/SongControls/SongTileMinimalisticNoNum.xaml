@@ -1,0 +1,83 @@
+﻿<UserControl
+    x:Name="SongTileMinimalisticNoNumControl"
+    x:Class="MusicPlayerLibrary.Controls.SongControls.SongTileMinimalisticNoNum"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayerLibrary.Controls.SongControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="using:MusicPlayerLibrary.Resources"
+    xmlns:buttons="using:MusicPlayerLibrary.Controls.Buttons"
+    xmlns:extensions="using:ExtensionsLibrary.Extensions"
+    DataContextChanged="SongTile_DataContextChanged"
+    DoubleTapped="SongTileMinimalisticNoNum_DoubleTapped"
+    PointerEntered="SongTileMinimalisticNoNum_PointerEntered"
+    PointerExited="SongTileMinimalisticNoNum_PointerExited"
+    PointerPressed="SongTileMinimalisticNoNum_PointerPressed"
+    PointerReleased="SongTileMinimalisticNoNum_PointerReleased"
+    IsEnabledChanged="SongTileMinimalisticNoNum_IsEnabledChanged"
+    Loaded="SongTileMinimalisticNoNum_Loaded"
+    Unloaded="SongTileMinimalisticNoNum_Unloaded"
+    x:DefaultBindMode="OneWay"
+    Height="50"
+    MinWidth="616"
+    MaxWidth="1120"
+    IsEnabled="{x:Bind Song.IsEnabled}"
+    mc:Ignorable="d"
+    d:DesignHeight="50"
+    d:DesignWidth="1120">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <res:MenusResourceDictionary/>
+                <res:ResourceDictionary/>
+                <res:StyleResourceDictionary/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="RootGrid" Background="Transparent" BorderThickness="0,0,0,1" VerticalAlignment="Stretch" Style="{StaticResource TileRootGridStyle}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Normal"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource TileRevealBackgroundBrush}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource TileRevealBackgroundBrush}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                    <VisualState.Setters>
+                        <Setter Target="SongTileMinimalisticNoNumControl.Foreground" Value="{ThemeResource SystemChromeDisabledLowColor}"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="PlayingStates">
+                <VisualState x:Name="Playing">
+                    <VisualState.Setters>
+                        <Setter Target="SongTileMinimalisticNoNumControl.Foreground" Value="{ThemeResource SystemAccentColor}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NotPlaying"/>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="70"/>
+        </Grid.ColumnDefinitions>
+        <buttons:RoundPlayPauseButton ButtonType="SmallNoTint" ButtonPointerOver="{x:Bind TilePointerOver}" PlayingState="{x:Bind Song.PlayingState}" PlayButtonClick="PlayPauseButton_Click"/>
+        <TextBlock Text="{x:Bind Song.Title}" Foreground="{x:Bind Foreground}" Margin="10,0,0,0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis"/>
+        <TextBlock Text="{x:Bind extensions:TimespanExtensions.ToFormatedString(Song.Duration)}" Foreground="{x:Bind Foreground}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis"/>
+    </Grid>
+</UserControl>

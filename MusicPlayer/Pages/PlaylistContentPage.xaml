@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="MusicPlayer.Pages.PlaylistContentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayer.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:headers="using:MusicPlayerLibrary.Controls.Headers"
+    xmlns:songTiles="using:MusicPlayerLibrary.Controls.SongControls"
+    xmlns:models="using:MusicPlayerLibrary.Models"
+    xmlns:joinLinks="using:MusicPlayerLibrary.Data.JoinLinks"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
+    Loaded="PlaylistContentPage_Loaded"
+    x:DefaultBindMode="OneWay"
+    Background="Transparent">
+    <Page.Resources>
+        <MenuFlyout x:Key="PlaylistSongFlyout" Placement="RightEdgeAlignedTop">
+            <MenuFlyoutItem Icon="Edit" x:Uid="/PlaylistContentPageResources/Edit" Click="SongFlyoutItemEdit_Click"/>
+            <MenuFlyoutItem Icon="Remove" x:Uid="/PlaylistContentPageResources/Remove_From_Playlist" Click="SongFlyoutItemRemoveFromPlaylist_Click"/>
+            <MenuFlyoutItem Icon="Delete" x:Uid="/PlaylistContentPageResources/Remove" Click="SongFlyoutItemRemove_Click"/>
+            <MenuFlyoutItem Icon="Add" x:Uid="/PlaylistContentPageResources/Add_To_Queue" Click="SongFlyoutItemAddToQueue_Click"/>
+        </MenuFlyout>
+    </Page.Resources>
+    <ListView x:Name="PlaylistContentListView" Header="{x:Bind Playlist}" ItemsSource="{x:Bind Playlist.SongLinks}" SelectionMode="None" IsItemClickEnabled="True" Style="{StaticResource VerticalListViewStyle}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle0_2}">
+        <ListView.HeaderTemplate>
+            <DataTemplate>
+                <headers:PlaylistHeader Margin="20,0" PlayPause="PlaylistHeader_PlayPause"/>
+            </DataTemplate>            
+        </ListView.HeaderTemplate>
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="joinLinks:PlaylistSongLink">
+                <songTiles:SongTileMinimalisticNoNum DataContext="{x:Bind Song}" PlayPause="SongTileMinimalisticNoNum_PlayPause" ContextFlyout="{StaticResource PlaylistSongFlyout}"/>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <ItemsStackPanel MaxWidth="1120" Margin="20,0"/>
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+    </ListView>
+</Page>

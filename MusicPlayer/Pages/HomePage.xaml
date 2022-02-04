@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="MusicPlayer.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayer.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:albumTiles="using:MusicPlayerLibrary.Controls.AlbumControls"
+    xmlns:artistTiles="using:MusicPlayerLibrary.Controls.ArtistControls"
+    xmlns:playlistTiles="using:MusicPlayerLibrary.Controls.PlaylistControls"
+    xmlns:selectors="using:MusicPlayerLibrary.TemplateSelectors"
+    xmlns:horizontalListView="using:MusicPlayerLibrary.Controls.HorizontalListView"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
+    x:DefaultBindMode="OneWay"
+    RequestedTheme="{x:Bind MusicPlayer.ApplicationTheme}"
+    Background="Transparent">
+    <Page.Resources>          
+        <selectors:HomeTemplateSelectors x:Key="HomeTemplateSelector" AlbumTileTall="{StaticResource AlbumTileTall}" ArtistTileTall="{StaticResource ArtistTileTall}" PlaylistTileTall="{StaticResource PlaylistTileTall}"/>
+        <DataTemplate x:Key="AlbumTileTall">
+            <albumTiles:AlbumTileTall PlayPause="AlbumTileTall_PlayPause" GoToArtist="AlbumTileTall_GoToArtist" />
+        </DataTemplate>
+        <DataTemplate x:Key="ArtistTileTall">
+            <artistTiles:ArtistTileTall PlayPause="ArtistTileTall_PlayPause" />
+        </DataTemplate>
+        <DataTemplate x:Key="PlaylistTileTall">
+            <playlistTiles:PlaylistTileTall PlayPause="PlaylistTileTall_PlayPause" />
+        </DataTemplate>
+    </Page.Resources>
+    <ScrollViewer>
+        <Grid>
+            <StackPanel Margin="20,32,20,0" MaxWidth="1400">
+                <TextBlock x:Uid="/HomePageResources/Last_Played" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,-35"/>
+                <horizontalListView:HorizontalListView ItemsSource="{x:Bind MusicPlayer.LastPlayed}" Height="310" SelectionMode="None" IsItemClickEnabled="True" ItemClick="LastPlayedListView_ItemClick" ItemTemplateSelector="{StaticResource HomeTemplateSelector}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle15_10}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" Margin="-15,0,-15,0"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </horizontalListView:HorizontalListView>
+                <TextBlock x:Uid="/HomePageResources/Most_Played" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,-35"/>
+                <horizontalListView:HorizontalListView ItemsSource="{x:Bind MusicPlayer.MostPlayed}" Height="310" SelectionMode="None" IsItemClickEnabled="True" ItemClick="MostPlayedListView_ItemClick" ItemTemplateSelector="{StaticResource HomeTemplateSelector}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle15_10}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" Margin="-15,0,-15,0"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </horizontalListView:HorizontalListView>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

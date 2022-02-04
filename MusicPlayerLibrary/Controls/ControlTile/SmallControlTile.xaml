@@ -1,0 +1,215 @@
+﻿<UserControl
+    x:Class="MusicPlayerLibrary.Controls.ControlTile.SmallControlTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MusicPlayerLibrary.Controls.ControlTile"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="using:MusicPlayerLibrary.Resources"
+    xmlns:buttons="using:MusicPlayerLibrary.Controls.Buttons"
+    d:DesignHeight="200"
+    d:DesignWidth="320"
+    x:DefaultBindMode="OneWay"
+    Loaded="ControlBar_Loaded"
+    RequestedTheme="{x:Bind MusicPlayer.ApplicationTheme}"
+    Unloaded="ControlBar_Unloaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <res:StyleResourceDictionary />
+                <res:ResourceDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Background>
+            <brushes:AcrylicBrush
+                BackgroundSource="Backdrop"
+                BlurAmount="30"
+                Opacity="1"
+                TintColor="{ThemeResource SystemChromeMediumLowColor}"
+                TintOpacity=".9" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Button
+                Grid.RowSpan="3"
+                Margin="5"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="{x:Bind Image.ImageBrush60, FallbackValue=#00000000}"
+                Click="ChangeViewButton_Click"
+                CornerRadius="{StaticResource TileCornerRadius}"
+                IsEnabled="{x:Bind MusicPlayer.IsEnabled}"
+                Style="{StaticResource PointerOverButtonStyle}">
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="/MusicPlayerLibrary/ControlTileResources/Fullscreen_Hint" />
+                </ToolTipService.ToolTip>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="24"
+                    Foreground="White"
+                    Text="&#xE740;" />
+            </Button>
+            <buttons:UnderlinedButton
+                Grid.Column="1"
+                Grid.Row="1"
+                Margin="5,0,0,0"
+                VerticalAlignment="Top"
+                Click="GoToSongButton_Click"
+                Content="{x:Bind MusicPlayer.CurrentPlayingSong.Title}">
+                <ToolTipService.ToolTip>
+                    <TextBlock Text="{x:Bind MusicPlayer.CurrentPlayingSong.Title}" />
+                </ToolTipService.ToolTip>
+            </buttons:UnderlinedButton>
+            <buttons:UnderlinedButton
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="5,0,0,0"
+                VerticalAlignment="Top"
+                Click="GoToArtistButton_Click"
+                Content="{x:Bind MusicPlayer.CurrentPlayingSong.ParentAlbum.ParentArtist.Artist}">
+                <ToolTipService.ToolTip>
+                    <TextBlock Text="{x:Bind MusicPlayer.CurrentPlayingSong.ParentAlbum.ParentArtist.Artist}" />
+                </ToolTipService.ToolTip>
+            </buttons:UnderlinedButton>
+        </Grid>
+        <Slider
+            Grid.Row="1"
+            Margin="2,0"
+            IsEnabled="{x:Bind MusicPlayer.IsEnabled}"
+            Maximum="{x:Bind MaximumPosition}"
+            Minimum="0"
+            Style="{ThemeResource CustomSliderStyle}"
+            Value="{x:Bind CurrentPosition, Mode=TwoWay}" />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+            Margin="5,0,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="12"
+            Text="{x:Bind CurrentTime}" />
+            <TextBlock
+            Grid.Column="2"
+            Margin="0,0,5,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="12"
+            Text="{x:Bind TotalTime}" />
+        </Grid>
+        <Grid Grid.Row="3" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="ShuffleButton"
+                Click="ShuffleButton_Click"
+                Content="&#xE8B1;"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="19"
+                Style="{StaticResource BasicAnimatedButtonStyle}">
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="/MusicPlayerLibrary/ControlTileResources/Shuffle" />
+                </ToolTipService.ToolTip>
+            </Button>
+            <Button
+                Grid.Column="1"
+                HorizontalContentAlignment="Center"
+                Click="PlayPreviousButton_Click"
+                Content="&#xE892;"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                IsEnabled="{x:Bind MusicPlayer.IsEnabled}"
+                Style="{StaticResource BasicAnimatedButtonStyle}">
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="/MusicPlayerLibrary/ControlTileResources/Previous_Track" />
+                </ToolTipService.ToolTip>
+            </Button>
+            <Button
+                Grid.Column="2"
+                HorizontalContentAlignment="Center"
+                Click="PlayPauseButton_Click"
+                Content="{x:Bind PlayPauseButtonSymbol}"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                IsEnabled="{x:Bind MusicPlayer.IsEnabled}"
+                Style="{StaticResource BasicAnimatedButtonStyle}">
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="/MusicPlayerLibrary/ControlTileResources/Play_Pause" />
+                </ToolTipService.ToolTip>
+            </Button>
+            <Button
+                Grid.Column="3"
+                HorizontalContentAlignment="Center"
+                Click="PlayNextButton_Click"
+                Content="&#xE893;"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                IsEnabled="{x:Bind MusicPlayer.IsEnabled}"
+                Style="{StaticResource BasicAnimatedButtonStyle}">
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="/MusicPlayerLibrary/ControlTileResources/Next_Track" />
+                </ToolTipService.ToolTip>
+            </Button>
+            <Button
+                Grid.Column="4"
+                Click="MuteButton_Click"
+                Content="{x:Bind VolumeButtonSymbol}"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                PointerPressed="MuteButton_PointerPressed"
+                Style="{StaticResource BasicAnimatedButtonStyle}">
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="/MusicPlayerLibrary/ControlTileResources/Mute"/>
+                </ToolTipService.ToolTip>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout Placement="Top">
+                        <Slider Width="100"
+                            Grid.Column="4"
+                            Maximum="100"
+                            Minimum="0"
+                            Style="{ThemeResource CustomSliderStyle}"
+                            Value="{x:Bind Volume, Mode=TwoWay}" />
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </Button>
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ShuffleStates">
+                <VisualState x:Name="ShuffleOff" />
+                <VisualState x:Name="ShuffleOn">
+                    <VisualState.Setters>
+                        <Setter Target="ShuffleButton.Foreground" Value="{ThemeResource SystemAccentColor}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

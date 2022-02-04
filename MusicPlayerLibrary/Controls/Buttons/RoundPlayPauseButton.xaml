@@ -1,0 +1,81 @@
+﻿<UserControl
+    x:Class="MusicPlayerLibrary.Controls.Buttons.RoundPlayPauseButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayerLibrary.Controls.Buttons"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="using:MusicPlayerLibrary.Resources"
+    x:DefaultBindMode="OneWay"
+    IsEnabledChanged="RoundPlayPauseButton_IsEnabledChanged"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <res:StyleResourceDictionary/>
+                <res:ResourceDictionary/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <Storyboard>
+                        <DoubleAnimation EnableDependentAnimation="True" Duration="{x:Bind AnimationDuration}" To="{x:Bind EllipseSize}" Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Height"/>
+                        <DoubleAnimation EnableDependentAnimation="True" Duration="{x:Bind AnimationDuration}" To="{x:Bind EllipseSize}" Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Width"/>
+                        <DoubleAnimation EnableDependentAnimation="True" Duration="{x:Bind AnimationDuration}" To="1.3" Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="StrokeThickness"/>
+                        <ColorAnimation Duration="0:0:0.1" To="Transparent" Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" FillBehavior="HoldEnd"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                    <Storyboard>
+                        <DoubleAnimation EnableDependentAnimation="True" Duration="{x:Bind AnimationDuration}" To="{x:Bind EllipsePointerOverSize}" Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Height"/>
+                        <DoubleAnimation EnableDependentAnimation="True" Duration="{x:Bind AnimationDuration}" To="{x:Bind EllipsePointerOverSize}" Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="Width"/>
+                        <DoubleAnimation EnableDependentAnimation="True" Duration="{x:Bind AnimationDuration}" To="1.8" Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="StrokeThickness"/>
+                        <ColorAnimation Duration="0" To="#A0000000" Storyboard.TargetName="Ellipse" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" FillBehavior="HoldEnd"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="IconBrush">
+                <VisualState x:Name="Static">
+                    <VisualState.Setters>
+                        <Setter Target="Ellipse.Stroke" Value="White"/>
+                        <Setter Target="TextBlock.Foreground" Value="White"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Dynamic">
+                    <VisualState.Setters>
+                        <Setter Target="Ellipse.Stroke" Value="{ThemeResource SystemBaseHighColor}"/>
+                        <Setter Target="TextBlock.Foreground" Value="{ThemeResource SystemBaseHighColor}"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="ButtonOpacityStates">
+                <VisualState x:Name="Visible">
+                    <Storyboard>
+                        <DoubleAnimation To="1" Duration="{x:Bind AnimationDuration}" FillBehavior="HoldEnd" Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity"/>
+                        <DoubleAnimation To="0" Duration="{x:Bind AnimationDuration}" FillBehavior="HoldEnd" Storyboard.TargetName="TrackTextBlock" Storyboard.TargetProperty="Opacity"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Hidden">
+                    <Storyboard>
+                        <DoubleAnimation To="0" Duration="{x:Bind AnimationDuration}" FillBehavior="HoldEnd" Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity"/>
+                        <DoubleAnimation To="1" Duration="{x:Bind AnimationDuration}" FillBehavior="HoldEnd" Storyboard.TargetName="TrackTextBlock" Storyboard.TargetProperty="Opacity"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Border x:Name="RootBorder" Background="{x:Bind BackgroundBrush}" Opacity="0">
+            <Button Height="{x:Bind ButtonSize}" Width="{x:Bind ButtonSize}" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center" Click="PlayButton_Click" Style="{StaticResource BasicButtonStyle}">
+                <Grid Height="{x:Bind ButtonSize}" Width="{x:Bind ButtonSize}">
+                    <Ellipse x:Name="Ellipse" Stroke="White" Fill="Transparent" StrokeThickness="1.3" Height="{x:Bind EllipseSize}" Width="{x:Bind EllipseSize}" PointerEntered="PlayButton_PointerEntered" PointerExited="PlayButton_PointerExited"/>
+                    <TextBlock x:Name="TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{x:Bind IconFontSize, FallbackValue=12}" IsHitTestVisible="False" FontFamily="Segoe MDL2 Assets" Foreground="White" Padding="0" Text="{x:Bind ButtonSymbol}"/>
+                </Grid>
+            </Button>
+        </Border>
+        <TextBlock x:Name="TrackTextBlock" Text="{x:Bind Track, FallbackValue=0}" Visibility="{x:Bind TrackVisibility, FallbackValue=Collapsed}" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+    </Grid>
+</UserControl>

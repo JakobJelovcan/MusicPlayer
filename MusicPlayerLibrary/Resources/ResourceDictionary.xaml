@@ -1,0 +1,43 @@
+﻿<ResourceDictionary
+    x:Class="MusicPlayerLibrary.Resources.ResourceDictionary"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayerLibrary.Resources">
+    <AcrylicBrush
+        x:Key="TileBackgroundAcrylic"
+        BackgroundSource="Backdrop"
+        FallbackColor="{ThemeResource TileBackgroundColor}"
+        Opacity="1"
+        TintColor="{ThemeResource TileBackgroundColor}"
+        TintOpacity="1" />
+    <RevealBorderBrush
+        x:Key="TileRevealBorderBrush"
+        FallbackColor="{ThemeResource TileRevealBorderColor}"
+        Color="{ThemeResource TileRevealBorderColor}" />
+    <RevealBackgroundBrush
+        x:Key="TileRevealBackgroundBrush"
+        FallbackColor="{ThemeResource TileRevealBackgroundColor}"
+        Color="{ThemeResource TileRevealBackgroundColor}"
+        Opacity="1" />
+    <AcrylicBrush
+        x:Key="BackgroundAcrylic"
+        BackgroundSource="Backdrop"
+        FallbackColor="{ThemeResource SystemChromeLowColor}"
+        TintColor="{ThemeResource SystemChromeLowColor}"
+        TintOpacity="1" />
+    <CornerRadius x:Key="TileCornerRadius">4</CornerRadius>
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="TileBackgroundColor">#FFE0E0E0</Color>
+            <Color x:Key="TileRevealBorderColor">#FFC0C0C0</Color>
+            <Color x:Key="TileRevealBackgroundColor">#FFD2D2D2</Color>
+            <SolidColorBrush x:Key="TileBackgroundBrush" Color="#FFB0B0B0" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="TileBackgroundColor">#FF404040</Color>
+            <Color x:Key="TileRevealBorderColor">#FF353535</Color>
+            <Color x:Key="TileRevealBackgroundColor">#FF404040</Color>
+            <SolidColorBrush x:Key="TileBackgroundBrush" Color="#FF404040" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

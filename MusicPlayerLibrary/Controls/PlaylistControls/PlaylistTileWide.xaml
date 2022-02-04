@@ -1,0 +1,85 @@
+﻿<UserControl
+    x:Class="MusicPlayerLibrary.Controls.PlaylistControls.PlaylistTileWide"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayerLibrary.Controls.PlaylistControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="using:MusicPlayerLibrary.Resources"
+    xmlns:buttons="using:MusicPlayerLibrary.Controls.Buttons"
+    DataContextChanged="PlaylistTileTall_DataContextChanged"
+    PointerEntered="PlaylistTileWide_PointerEntered"
+    PointerExited="PlaylistTileWide_PointerExited"
+    PointerPressed="PlaylistTileWide_PointerPressed"
+    PointerReleased="PlaylistTileWide_PointerReleased"
+    x:DefaultBindMode="OneWay"
+    Width="350"
+    Height="150"
+    IsEnabled="{x:Bind Playlist.IsEnabled}"
+    mc:Ignorable="d"
+    d:DesignHeight="150"
+    d:DesignWidth="350">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <res:ResourceDictionary/>
+                <res:MenusResourceDictionary/>
+                <res:StyleResourceDictionary/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="RootGrid" ContextFlyout="{StaticResource PlaylistFlyout}" Style="{StaticResource TileRootGridStyle}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <Storyboard>
+                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                    </Storyboard>
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource TileBackgroundAcrylic}"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PointerOver">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource TileRevealBackgroundBrush}"/>
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
+                        <Setter Target="RootGrid.Background" Value="{ThemeResource TileRevealBackgroundBrush}"/>
+                    </VisualState.Setters>
+                    <Storyboard>
+                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>            
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>        
+        <Border Background="{x:Bind Playlist.Image.ImageBrush150}" CornerRadius="{StaticResource TileCornerRadius}" PointerEntered="PlaylistImageBorder_PointerEntered" PointerExited="PlaylistImageBorder_PointerExited">
+            <buttons:RoundPlayPauseButton ButtonType="Large" ButtonPointerOver="{x:Bind ImagePointerOver}" PlayingState="{x:Bind Playlist.PlayingState}" PlayButtonClick="PlayPauseButton_Click"/>
+        </Border>
+        <Grid Margin="10,0,5,0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Uid="Content_Type_Playlist" VerticalAlignment="Bottom" FontWeight="SemiBold" FontSize="12" Foreground="{ThemeResource SystemChromeDisabledLowColor}"/>
+            <TextBlock Grid.Row="1" Text="{x:Bind Playlist.Playlist, FallbackValue=Playlist_Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="16" FontWeight="SemiBold" ToolTipService.Placement="Bottom">
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind Playlist.Playlist, FallbackValue=Playlist_Name}"/>
+                </ToolTipService.ToolTip>
+            </TextBlock>
+            <TextBlock Grid.Row="2" Text="{x:Bind Playlist.Info, FallbackValue=Info_Data}" VerticalAlignment="Top" FontSize="13" Foreground="{ThemeResource SystemChromeDisabledLowColor}"/>
+        </Grid>        
+    </Grid>
+</UserControl>

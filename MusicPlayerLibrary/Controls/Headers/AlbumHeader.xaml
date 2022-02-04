@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="MusicPlayerLibrary.Controls.Headers.AlbumHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayerLibrary.Controls.Headers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="using:MusicPlayerLibrary.Resources"
+    xmlns:buttons="using:MusicPlayerLibrary.Controls.Buttons"
+    DataContextChanged="AlbumHeader_DataContextChanged"
+    mc:Ignorable="d"
+    x:DefaultBindMode="OneWay"    
+    Background="Transparent">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <res:MenusResourceDictionary/>
+                <res:StyleResourceDictionary/>
+                <res:ResourceDictionary/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid MaxWidth="1120" Margin="0,33,0,10" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Border Grid.RowSpan="4" CornerRadius="{StaticResource TileCornerRadius}" Background="{x:Bind Album.Image.ImageBrush200}" />
+        <TextBlock Text="{x:Bind Album.Album, FallbackValue=Album}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="44.7" FontWeight="SemiBold" Margin="20,0,0,0" Grid.Column="1"/>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="20,0,0,0" Spacing="3">
+            <TextBlock x:Uid="By" Foreground="{ThemeResource SystemChromeDisabledLowColor}"/>
+            <buttons:UnderlinedButton Content="{x:Bind Album.ParentArtist.Artist, FallbackValue=Artist}" Click="GoToArtistButton_Click" VerticalAlignment="Top"/>
+        </StackPanel>
+        <TextBlock Text="{x:Bind Album.Info}" Foreground="{ThemeResource SystemChromeDisabledLowColor}" Margin="20,0,0,0" Grid.Column="1" Grid.Row="2"/>
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Spacing="20" Margin="20,0,0,0">
+            <buttons:PlayPauseButton CurrentPlayingState="{x:Bind Album.PlayingState}" Click="PlayAlbumButton_Click" />
+            <Button Style="{StaticResource OptionsButtonStyle}" Flyout="{StaticResource AlbumFlyout}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

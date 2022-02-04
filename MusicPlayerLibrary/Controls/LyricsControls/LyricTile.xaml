@@ -1,0 +1,47 @@
+﻿<UserControl
+    x:Class="MusicPlayerLibrary.Controls.LyricsControls.LyricTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayerLibrary.Controls.LyricsControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContextChanged="LyricTile_DataContextChanged"
+    Unloaded="LyricTile_Unloaded"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    x:Name="tile"
+    d:DesignWidth="400">
+    <Grid x:Name="RootGrid" HorizontalAlignment="Left" MaxWidth="700">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.Opacity" Value=".4"/>
+                        <Setter Target="LyricText.FontSize" Value="20"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Highlighted">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.Opacity" Value="1"/>
+                        <Setter Target="LyricText.FontSize" Value="32"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas VerticalAlignment="Center">
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.005" ScaleY="-0.005"/>
+                    <TranslateTransform X="0" Y="40"/>
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <Path Fill="{Binding MicHeadColor, ElementName=tile, FallbackValue=#FFFFB6C1}" Data="M4685 9794 c-144 -21 -232 -39 -314 -66 -521 -166 -903 -591 -1023 -1135 -30 -135 -32 -455 -4 -583 104 -484 386 -854 812 -1068 481 -242 1054 -206 1508 95 133 88 328 282 415 412 398 601 324 1391 -179 1900 -119 121 -244 211 -395 286 -227 112 -395 154 -640 160 -82 2 -163 1 -180 -1z"/>
+            <Path Fill="{Binding MicHandleColor, ElementName=tile, FallbackValue=#FF00BFFF}" Data="M2265 6185 c-547 -729 -1013 -1353 -1035 -1386 -126 -195 -112 -408 37 -557 137 -137 349 -162 510 -60 52 33 2621 2395 2623 2412 1 5 -51 26 -115 47 -272 89 -498 231 -703 439 -92 93 -203 240 -262 348 -25 45 -48 82 -52 82 -4 0 -455 -596 -1003 -1325z"/>
+        </Canvas>
+        <TextBlock x:Name="LyricText" Text="{Binding Text}" Foreground="White" Grid.Column="1" FontWeight="Normal" FontSize="32" TextWrapping="Wrap"/>
+    </Grid>
+</UserControl>

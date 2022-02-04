@@ -1,0 +1,115 @@
+﻿<ContentDialog
+    x:Class="MusicPlayerLibrary.ContentDialogs.StorageLocationsContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayerLibrary.ContentDialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:storageTiles="using:MusicPlayerLibrary.Controls.StorageControls"
+    mc:Ignorable="d"
+    Background="{ThemeResource BackgroundAcrylic}"
+    x:DefaultBindMode="OneWay"
+    x:Uid="/MusicPlayerLibrary/StorageDialogResources/Dialog"    
+    RequestedTheme="{x:Bind MusicPlayer.ApplicationTheme}"
+    DefaultButton="Primary"
+    PrimaryButtonClick="CloseAndReload_ButtonClick"
+    SecondaryButtonClick="Close_ButtonClick"
+    CloseButtonClick="Cancel_ButtonClick">    
+    <ContentDialog.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource TileBackgroundAcrylic}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemChromeDisabledHighColor}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="CornerRadius" Value="{StaticResource TileCornerRadius}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="FocusVisualMargin" Value="-3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="Normal"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource TileRevealBackgroundBrush}"/>
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource TileRevealBackgroundBrush}"/>
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" CornerRadius="{TemplateBinding CornerRadius}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentDialog.Resources>
+    <Grid Width="300" MinHeight="500">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Button Width="200" ToolTipService.Placement="Bottom" Style="{StaticResource ButtonStyle}">
+            <storageTiles:StorageTile FolderName="Music Library" FolderPath="" DeleteButtonVisibility="Collapsed"/>           
+        </Button>
+        <ListView ItemsSource="{x:Bind StorageFolders}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle0_4}" MinHeight="4" Grid.Row="1" Margin="0,4,0,4" Width="200">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <storageTiles:StorageTile Delete="StorageTile_Delete"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Width="200" Grid.Row="2" Content="&#xE710;" FontSize="30" Click="AddANewLocationButton_Click" ToolTipService.Placement="Bottom" Style="{StaticResource ButtonStyle}">
+            <ToolTipService.ToolTip>
+                <TextBlock x:Uid="/MusicPlayerLibrary/StorageDialogResources/_New_Location"/>
+            </ToolTipService.ToolTip>
+        </Button>
+        <TextBlock x:Uid="/MusicPlayerLibrary/StorageDialogResources/Restart_Message" Visibility="{x:Bind RestartMessageVisibility, FallbackValue=Collapsed}" TextWrapping="Wrap" Grid.Row="4"/>
+        <HyperlinkButton x:Uid="/MusicPlayerLibrary/StorageDialogResources/Enable_Storage_Access" Grid.Row="5" NavigateUri="ms-settings:privacy-broadfilesystemaccess"/>
+    </Grid>
+</ContentDialog>

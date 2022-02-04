@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="MusicPlayerLibrary.Controls.MoreFromArtist.MoreFromArtistControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayerLibrary.Controls.MoreFromArtist"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:res="using:MusicPlayerLibrary.Resources"
+    xmlns:albumTiles="using:MusicPlayerLibrary.Controls.AlbumControls"
+    xmlns:horizontalListView="using:MusicPlayerLibrary.Controls.HorizontalListView"
+    xmlns:buttons="using:MusicPlayerLibrary.Controls.Buttons"
+    DataContextChanged="MoreFromArtistControl_DataContextChanged"
+    mc:Ignorable="d"
+    x:DefaultBindMode="OneWay"
+    d:DesignHeight="300"
+    d:DesignWidth="1120">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <res:MenusResourceDictionary/>
+                <res:StyleResourceDictionary/>
+                <res:ResourceDictionary/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" MaxWidth="1120" Margin="0,40,0,10" Visibility="{x:Bind MoreFromArtistVisibility}">
+        <StackPanel Canvas.ZIndex="1" Orientation="Horizontal" Height="30" VerticalAlignment="Top" Spacing="3">
+            <TextBlock x:Uid="More_By" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,0,2"/>
+            <buttons:UnderlinedButton Content="{x:Bind MoreFromArtist.Artist.Artist, FallbackValue=Artist}" FontSize="16" FontWeight="SemiBold" Height="30" VerticalAlignment="Center" Click="GoToArtistButton_Click"/>
+        </StackPanel>
+        <horizontalListView:HorizontalListView ItemsSource="{x:Bind MoreFromArtist.Albums}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="MoreFromArtistListView_ItemClick" ItemContainerStyle="{StaticResource ListViewItemContainerStyle15_10}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Horizontal" Margin="-15,0,-15,0"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <albumTiles:AlbumTileTall PlayPause="AlbumTileTall_PlayPause" GoToArtist="AlbumTileTall_GoToArtist"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </horizontalListView:HorizontalListView>
+    </Grid>
+</UserControl>
